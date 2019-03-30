@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button muteButton;
     AnimationDrawable animation;
     ImageView animImage;
-    Animation fadeAnimation, rotateAnimation, rotateCounterAnimation;
+    Animation animations;
 
     int muteToggle;
     AnimationSet animationSet;
@@ -88,32 +88,36 @@ public class MainActivity extends AppCompatActivity {
                 animation.addFrame(frame14, reasonableDuration);
 
                 animationSet = new AnimationSet(true);
-                animationSet.setFillEnabled(true);
-                animationSet.setInterpolator(new BounceInterpolator());
+               // animationSet.setFillEnabled(true);
+                //animationSet.setInterpolator(new BounceInterpolator());
 
-                fadeAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
-                rotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotateclockwise);
-                rotateCounterAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotatecounterclockwise);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotateclockwise);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotatecounterclockwise);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoomin);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoomout);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoombackout);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.movetopleft);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.movebottomright);
+                animationSet.addAnimation(animations);
 
-                animationSet.addAnimation(fadeAnimation);
-                animationSet.addAnimation(rotateAnimation);
-                animationSet.addAnimation(rotateCounterAnimation);
 
 
-               animImage.startAnimation(animationSet);
+
+
+                animImage.startAnimation(animationSet);
 
 
                animImage.setBackground(animation);
                animation.start();
                animation.setOneShot(false);
-
-              // animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotateclockwise);
-              // animImage.startAnimation(animation2);
-
-
-
-
-                //add more here, do something cool
 
             }
         });
