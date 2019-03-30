@@ -4,9 +4,15 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
+import android.support.animation.FlingAnimation;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -15,8 +21,13 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     Context context;
     Button playButton;
+    Button muteButton;
     AnimationDrawable animation;
     ImageView animImage;
+    Animation fadeAnimation, rotateAnimation, rotateCounterAnimation;
+
+    int muteToggle;
+    AnimationSet animationSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
         mediaPlayer = MediaPlayer.create(context, R.raw.walkingonsunshine);
+        animationSet = new AnimationSet(true);
 
 
 
@@ -33,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         playButton = findViewById(R.id.playButton);
+        muteButton = findViewById(R.id.muteButton);
         animImage = findViewById(R.id.animImage);
 
 
@@ -41,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+                playAudio();
                 BitmapDrawable frame1 = (BitmapDrawable)getResources().getDrawable(R.drawable.frame01);
                 BitmapDrawable frame2 = (BitmapDrawable)getResources().getDrawable(R.drawable.frame02);
                 BitmapDrawable frame3 = (BitmapDrawable)getResources().getDrawable(R.drawable.frame03);
@@ -74,12 +87,41 @@ public class MainActivity extends AppCompatActivity {
                 animation.addFrame(frame13, reasonableDuration);
                 animation.addFrame(frame14, reasonableDuration);
 
+                animationSet = new AnimationSet(true);
+                animationSet.setFillEnabled(true);
+                animationSet.setInterpolator(new BounceInterpolator());
 
-                animImage.setBackground(animation);
-                animation.start();
-                animation.setOneShot(false);
-                playAudio();
+                fadeAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+                rotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotateclockwise);
+                rotateCounterAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotatecounterclockwise);
 
+                animationSet.addAnimation(fadeAnimation);
+                animationSet.addAnimation(rotateAnimation);
+                animationSet.addAnimation(rotateCounterAnimation);
+
+
+               animImage.startAnimation(animationSet);
+
+
+               animImage.setBackground(animation);
+               animation.start();
+               animation.setOneShot(false);
+
+              // animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotateclockwise);
+              // animImage.startAnimation(animation2);
+
+
+
+
+                //add more here, do something cool
+
+            }
+        });
+
+        muteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                muteAudio();
             }
         });
 
@@ -88,6 +130,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void playAudio(){
         mediaPlayer.start();
+        muteToggle = 1;
+
+    }
+
+    public void muteAudio(){
+        if(muteToggle == 1){
+            mediaPlayer.setVolume(0,0);
+            muteToggle = 0;
+        }
+        else{
+            mediaPlayer.setVolume(1, 1);
+            muteToggle = 1;
+        }
 
     }
 
