@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
+import android.support.animation.DynamicAnimation;
 import android.support.animation.FlingAnimation;
+import android.support.animation.SpringAnimation;
+import android.support.animation.SpringForce;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView animImage;
     Animation animations;
 
+
     int muteToggle;
     AnimationSet animationSet;
 
@@ -37,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
         context = this;
         mediaPlayer = MediaPlayer.create(context, R.raw.walkingonsunshine);
         animationSet = new AnimationSet(true);
-
-
-
 
 
 
@@ -88,10 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 animation.addFrame(frame14, reasonableDuration);
 
                 animationSet = new AnimationSet(true);
-               // animationSet.setFillEnabled(true);
-                //animationSet.setInterpolator(new BounceInterpolator());
 
-                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.movein);
                 animationSet.addAnimation(animations);
                 animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotateclockwise);
                 animationSet.addAnimation(animations);
@@ -107,11 +107,21 @@ public class MainActivity extends AppCompatActivity {
                 animationSet.addAnimation(animations);
                 animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.movebottomright);
                 animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotatecounterclockwiseagain);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotateclockwiseagain);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.movecenter);
+                animationSet.addAnimation(animations);
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoominagain);
+                animationSet.addAnimation(animations);
+
+                animations = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+                animationSet.addAnimation(animations);
 
 
 
-
-
+                animImage.setAlpha(1f);
                 animImage.startAnimation(animationSet);
 
 
